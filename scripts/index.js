@@ -59,17 +59,10 @@ spinElement.addEventListener('click',(event) => {
 });
 
 function cardsEqual(){
-  const victory = cardName.filter((card) =>{
-    if(cardName[0] === card) {
-      return true;
-    }
-    return false;
-  });
-  if(victory.length === 3){
-    return true;
-  }else{
-    return false;
-  }
+  const victory = cardName.filter((card) =>{    
+    return cardName[0] === card;
+  });      
+  return victory.length === 3;  
 }
 
 function validVictory(victory){
@@ -91,7 +84,7 @@ function validVictory(victory){
 
 function machine (callBack){
   titleElement.innerHTML = 'TESTANDO A SORTE';
-  let resultSlotId = [ 0, 0, 0]; // CADA VALUE REFERE AO CARD NO SLOT
+  let resultSlotId = [0, 0, 0]; // CADA VALUE REFERE AO CARD NO SLOT
 
   //GIF PARA DAR SENSAÇÃO DE ALEATORIDADE
   cardsElement.forEach((card) =>{
@@ -101,21 +94,21 @@ function machine (callBack){
   //LAÇO PARA ESCOLHER OS CARDS PARA CADA ITEM, ALEATORIAMENTE  
   for( let i = 0; i<50 ; i++){//50 RANDONS PARA CADA SLOT       
     resultSlotId.forEach((slot) =>{      
-      resultSlotId[slot] = getRandomInt();      
+      resultSlotId[slot] = getRandomInt() * resultSlotId.length;      
     });     
-  }
+  }  
   
   //DELAY DE 2s PARA MOSTRAR O RESULTADO
   setTimeout(() => {
     cardsElement.forEach((card, key) =>{
       //PEGA DADOS DO LAÇO E INJETA NAS VARIAVEIS
-      const newid = resultSlotId[key]; //PEGA O ID DE CADA SLOT
-      const newdate = items[newid]; // PEGA O CARD PELO ID
+      const newId = resultSlotId[key]; //PEGA O ID DE CADA SLOT
+      const newDate = items[newId]; // PEGA O CARD PELO ID
       
       //ATRIBUI AS VARIAVEIS PARA O HTML
-      card.setAttribute('src',newdate.src);
-      card.setAttribute('title',newdate.name);
-      card.setAttribute('alt',newdate.name);           
+      card.setAttribute('src',newDate.src);
+      card.setAttribute('title',newDate.name);
+      card.setAttribute('alt',newDate.name);           
     });    
     callBack();     
   },2000);   
@@ -123,5 +116,5 @@ function machine (callBack){
 }
 
 function getRandomInt(){
-  return Math.floor(Math.random() * 4);
+  return Math.floor(Math.random());  
 }
